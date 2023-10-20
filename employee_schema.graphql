@@ -1,0 +1,35 @@
+scalar GraphQlDate,
+
+type Employee {
+    id: Int,
+    FirstName: String,
+    LastName: String,
+    Age: Int,
+    BirthDate: GraphQlDate,
+    Title: String,
+    Department: String,
+    EmployeeType: String,
+    CurrentStatus: Int
+}
+
+type Query {
+    employees: [Employee]
+}
+
+input EmployeeInput {
+    id: Int,
+    FirstName: String,
+    LastName: String,
+    Age: Int,
+    BirthDate: GraphQlDate,
+    Title: String,
+    Department: String,
+    EmployeeType: String,
+    CurrentStatus: Int
+}
+
+type Mutation {
+    addEmployee(employee: EmployeeInput): Employee
+    updateEmployee(employee: EmployeeInput): Employee
+    deleteEmployee(id: Int): Employee   
+}
