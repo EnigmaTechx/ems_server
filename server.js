@@ -54,16 +54,25 @@ const employeeList = async () => {
   return employees;
 };
 
-const addEmployee = async (_root, { newEmp }) => {
+const getNextItem = async () => {
+  const count = await db.collection("employees").find({}).count();
+  console.log(`count: ${count}`);
+  return count + 1;
+};
+
+const addEmployee = async (_root, { employee }) => {
+  // console.log(`employee: ${employee}`);
+  const eId = await getNextItem();
   const newEmployee = {
-    FirstName: newEmp.FirstName,
-    LastName: newEmp.LastName,
-    Age: newEmp.Age,
-    DateOfJoining: newEmp.DateOfJoining,
-    Title: newEmp.Title,
-    Department: newEmps.Department,
-    EmployeeType: newEmp.EmployeeType,
-    CurrentStatus: newEmp.CurrentStatus,
+    id: eId,
+    FirstName: employee.FirstName,
+    LastName: employee.LastName,
+    Age: employee.Age,
+    DateOfJoining: new Date(employee.DateOfJoining),
+    Title: employee.Title,
+    Department: employee.Department,
+    EmployeeType: employee.EmployeeType,
+    CurrentStatus: 1,
   };
   const result = await db.collection("employees").insertOne(newEmployee);
   const savedEmp = await db
