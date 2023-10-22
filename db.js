@@ -21,7 +21,7 @@ const getDb = () => {
   return db;
 };
 
-const EmployeeSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
   FirstName: { type: String, required: true },
   LastName: { type: String, required: true },
   Age: { type: Number, required: true },
@@ -32,7 +32,7 @@ const EmployeeSchema = mongoose.Schema({
   CurrentStatus: { type: Number, required: true, default: 1 },
 });
 
-const EmployeeModel = mongoose.model("employees", EmployeeSchema);
+const UserModel = mongoose.model("employees", UserSchema);
 
-export default EmployeeModel;
+export default UserModel;
 export { connectToDb, getDb };

@@ -56,12 +56,10 @@ const employeeList = async () => {
 
 const getNextItem = async () => {
   const count = await db.collection("employees").find({}).count();
-  console.log(`count: ${count}`);
   return count + 1;
 };
 
 const addEmployee = async (_root, { employee }) => {
-  // console.log(`employee: ${employee}`);
   const eId = await getNextItem();
   const newEmployee = {
     id: eId,
