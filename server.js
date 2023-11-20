@@ -1,3 +1,11 @@
+/**
+ * Group 4
+    Derryck Dowuona - GraphQL API for fetching Employee Data
+    Christina Tresa Abraham - Employee Components (jsx)
+    Dipkumar Gunvantkumar Rakholiya - Validation for EmployeeCreateForm & UserModel
+    Harsh Rameshkumar Patel - EmployeeCreateForm & API for Inserting Employee
+ */
+
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -10,30 +18,6 @@ let db;
 const app = express();
 
 app.use(express.json());
-
-// testing
-// const employees = [
-//   {
-//     FirstName: "John",
-//     LastName: "Doe",
-//     Age: 30,
-//     DateOfJoining: new Date(),
-//     Title: "Software Engineer",
-//     Department: "IT",
-//     EmployeeType: "Permanent",
-//     CurrentStatus: 1,
-//   },
-//   {
-//     FirstName: "Jane",
-//     LastName: "Doe",
-//     Age: 25,
-//     DateOfJoining: new Date(),
-//     Title: "Software Engineer",
-//     Department: "IT",
-//     EmployeeType: "Permanent",
-//     CurrentStatus: 1,
-//   },
-// ];
 
 const typeDefs = await readFile("./employee_schema.graphql", "utf-8");
 
@@ -79,12 +63,30 @@ const addEmployee = async (_root, { employee }) => {
   return savedEmp;
 };
 
+const getEmployeeDetails = async (_root, { id }) => {
+  const employee = await db
+    .collection("employees")
+    .findOne({ id: parseInt(id) });
+  // console.log("-----------");
+  // console.log("employee", employee);
+  return employee;
+};
+
+const deleteEmployee = async (_root, { id }) => {
+  const result = await db
+    .collection("employees")
+    .deleteOne({ id: parseInt(id) });
+  return result.deletedCount;
+};
+
 const resolvers = {
   Query: {
     employees: employeeList,
+    employee: getEmployeeDetails,
   },
   Mutation: {
     addEmployee: addEmployee,
+    deleteEmployee: deleteEmployee,
   },
   GraphQlDate: GraphQlDateResolver,
 };

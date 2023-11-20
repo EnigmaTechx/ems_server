@@ -16,6 +16,11 @@ type Query {
     employees: [Employee]
 }
 
+
+type Query {
+    employee(id: Int): Employee
+}
+
 input EmployeeInput {
     id: Int,
     FirstName: String,
@@ -31,5 +36,5 @@ input EmployeeInput {
 type Mutation {
     addEmployee(employee: EmployeeInput): Employee
     updateEmployee(employee: EmployeeInput): Employee
-    deleteEmployee(id: Int): Employee   
+    deleteEmployee(id: Int): Int  
 }
