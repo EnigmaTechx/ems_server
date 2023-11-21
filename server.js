@@ -63,15 +63,15 @@ const addEmployee = async (_root, { employee }) => {
   return savedEmp;
 };
 
+// API to get employee details
 const getEmployeeDetails = async (_root, { id }) => {
   const employee = await db
     .collection("employees")
     .findOne({ id: parseInt(id) });
-  // console.log("-----------");
-  // console.log("employee", employee);
   return employee;
 };
 
+// API to delete employee
 const deleteEmployee = async (_root, { id }) => {
   const result = await db
     .collection("employees")
@@ -79,6 +79,7 @@ const deleteEmployee = async (_root, { id }) => {
   return result.deletedCount;
 };
 
+// API to update employee
 const updateEmployee = async (_root, { id, input }) => {
   const updatedFields = {};
 
