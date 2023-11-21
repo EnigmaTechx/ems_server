@@ -35,6 +35,6 @@ input EmployeeInput {
 
 type Mutation {
     addEmployee(employee: EmployeeInput): Employee
-    updateEmployee(employee: EmployeeInput): Employee
+    updateEmployee(id: Int!, input: EmployeeInput): Employee
     deleteEmployee(id: Int): Int  
 }

@@ -1,9 +1,9 @@
 /**
  * Group 4
-    Derryck Dowuona - GraphQL API for fetching Employee Data
-    Christina Tresa Abraham - Employee Components (jsx)
-    Dipkumar Gunvantkumar Rakholiya - Validation for EmployeeCreateForm & UserModel
-    Harsh Rameshkumar Patel - EmployeeCreateForm & API for Inserting Employee
+    Derryck Dowuona - EmployeeCreate Route | Navbar | EmployeeFilter
+    Christina Tresa Abraham - Update Employee Functionality | Update Employee API
+    Dipkumar Gunvantkumar Rakholiya - EmployeeDetails Route | EmployeeDetails Component | EmployeeDetails API
+    Harsh Rameshkumar Patel - Delete Employee Functionality | Delete Employee API
  */
 
 import express from "express";
@@ -79,6 +79,32 @@ const deleteEmployee = async (_root, { id }) => {
   return result.deletedCount;
 };
 
+const updateEmployee = async (_root, { id, input }) => {
+  const updatedFields = {};
+
+  if (input.Title !== undefined) {
+    updatedFields.Title = input.Title;
+  }
+  if (input.Department !== undefined) {
+    updatedFields.Department = input.Department;
+  }
+  if (input.CurrentStatus !== undefined) {
+    updatedFields.CurrentStatus = input.CurrentStatus;
+  }
+  const result = await db
+    .collection("employees")
+    .updateOne({ id: parseInt(id) }, { $set: updatedFields });
+
+  if (result.modifiedCount === 1) {
+    const updatedEmployee = await db
+      .collection("employees")
+      .findOne({ id: parseInt(id) });
+    return updatedEmployee;
+  } else {
+    throw new Error("Failed to update employee.");
+  }
+};
+
 const resolvers = {
   Query: {
     employees: employeeList,
@@ -87,6 +113,7 @@ const resolvers = {
   Mutation: {
     addEmployee: addEmployee,
     deleteEmployee: deleteEmployee,
+    updateEmployee: updateEmployee,
   },
   GraphQlDate: GraphQlDateResolver,
 };
